@@ -1,7 +1,7 @@
 {
   "name": "fs22-data-proxy",
   "version": "1.0.0",
-  "description": "A proxy server to fetch XML data from an FS22 dedicated server.",
+  "description": "Secure Proxy for FS22 Dedicated Server APIs",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -10,5 +10,8 @@
     "express": "^4.19.2",
     "axios": "^1.6.8",
     "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=14.x"
   }
 }
