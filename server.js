@@ -7,14 +7,19 @@ const cors = require("cors");
 app.use(cors());
 
 // ==========================================
-// CONFIGURATION - YOUR SPECIFIC SERVER DETAILS
+// CONFIGURATION - ENVIRONMENT VARIABLES
 // ==========================================
-// These variables are pulled from your FS22 dedicated server links
-// NOTE: It is recommended to move these to environment variables (process.env) 
-// for better security in a real-world deployment.
-const SERVER_IP = "144.126.128.152";
-const SERVER_PORT = "8170";
-const SECRET_CODE = "DIaoyx8jutkGtlDr";
+// IMPORTANT: Server details are now loaded from Render's Environment Variables (process.env)
+const SERVER_IP = process.env.FS22_SERVER_IP;
+const SERVER_PORT = process.env.FS22_PORT;
+const SECRET_CODE = process.env.FS22_SECRET_CODE;
+
+// Check if critical variables are set
+if (!SERVER_IP || !SERVER_PORT || !SECRET_CODE) {
+    console.error("CRITICAL ERROR: FS22 server IP, PORT, or SECRET_CODE environment variables are missing.");
+    // Exit the process immediately if configuration is incomplete
+    process.exit(1); 
+}
 
 // Base URL for the FS22 server feed
 const BASE_URL = `http://${SERVER_IP}:${SERVER_PORT}/feed`;
@@ -32,7 +37,10 @@ app.get("/", (req, res) => {
             "/career",
             "/economy",
             "/mapimage"
-        ]
+        ],
+        // Note: Do not expose the SECRET_CODE in a real app, 
+        // but we'll include the IP for debugging connectivity.
+        server_ip_check: SERVER_IP 
     });
 });
 
